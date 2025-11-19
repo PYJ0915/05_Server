@@ -10,7 +10,7 @@
 
 	<style>
 		table{
-			border-collapse: collapse;
+			border-collapse: collapse; <%-- border-collapse 속성은 표의 테두리 분리 여부 설정 => collapse (border 간격 합침 | separate (기본값, border 간격 유지) --%>
 		}
 		
 		
