@@ -38,5 +38,16 @@ JSP : html, css, js, java, el, jstl 모두 작성 가능! + 동적 페이지 (�
 		<a href="/el/scope">Servlet / JSP 범위(scope)별 내장 객체 + EL 사용법</a>
 	</h1>
 	
+	<hr>
+	
+	<h1>
+	<a href="/jstl/test">JSTL 다뤄보기</a>
+	</h1>
+	
+	<hr>
+	
+	<h1>
+		<a href="/book/list">책 목록 조회</a>
+	</h1>
 </body>
 </html>
