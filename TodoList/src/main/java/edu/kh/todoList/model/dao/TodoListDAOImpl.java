@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+import static edu.kh.todoList.common.JDBCTemplate.*;
 import edu.kh.todoList.model.dto.Todo;
 
 public class TodoListDAOImpl implements TodoListDAO{
@@ -60,15 +61,86 @@ public class TodoListDAOImpl implements TodoListDAO{
 			// executeUpdate() - DML(INSERT/DELETE/UPDATE) 구문 수행 후 결과 행의 개수 반환
 			rs = stmt.executeQuery(sql);
 			
-			
+			while(rs.next()) {
+				
+				// Builder 패턴 : 특정 값을 초기화된 객체를 쉽게 만드는 방법
+				// -> Lombok에서 제공하는 @Builder 어노테이션을 DTO에 작성하여 준비
+				boolean complete = rs.getInt("TODO_COMPLETE") == 1;
+				
+				Todo todo = Todo.builder()
+						.todoNo(rs.getInt("TODO_NO"))
+						.todoTitle(rs.getString("TODO_TITLE"))
+						.todoComplete(complete)
+						.regDate(rs.getString("REG_DATE"))
+						.build();
+				
+				todoList.add(todo);
+				
+			}
 			
 		} finally {
 			
+			close(rs);
+			close(stmt);
+			
+		}
+		
+		return todoList;
+	}
+
+
+	@Override
+	public int getCompleteCount(Connection conn) throws Exception {
+		
+		// 결과 저장용 변수 선언
+		int completeCount = 0;
+		
+		try {
+			String sql = prop.getProperty("getCompleteCount");
+			
+			stmt = conn.createStatement();
+			
+			rs = stmt.executeQuery(sql);
+			
+			if(rs.next()) {
+				completeCount = rs.getInt(1);
+			}
+			
+		} finally {
+			
+			close(rs);
+			close(stmt);
+			
+		}
+		
+		return completeCount;
+	}
+
+
+	@Override
+	public int todoAdd(Connection conn, String title, String detail) throws Exception {
+		
+		int result = 0;
+		
+		try {
+			
+			String sql = prop.getProperty("todoAdd");
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, title);
+			pstmt.setString(2, detail);
+			
+			result = pstmt.executeUpdate();
+			
+		} finally {
+			
+			close(pstmt);
 			
 		}
 		
 		
-		return todoList;
+		return result;
 	}
 
 }

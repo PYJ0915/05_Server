@@ -11,4 +11,6 @@ public interface TodoListService {
 
 	Map<String, Object> todoListFullView() throws Exception; // 상속받는 클래스와 추상메서드에 둘 다 throws Exception 존재해야함!
 
+	int todoAdd(String title, String detail) throws Exception;
+
 }

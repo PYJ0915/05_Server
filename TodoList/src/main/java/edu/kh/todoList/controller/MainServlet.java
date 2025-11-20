@@ -1,8 +1,10 @@
 package edu.kh.todoList.controller;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
+import edu.kh.todoList.model.dto.Todo;
 import edu.kh.todoList.model.service.TodoListService;
 import edu.kh.todoList.model.service.TodoListServiceImpl;
 import jakarta.servlet.ServletException;
@@ -31,6 +33,16 @@ public class MainServlet extends HttpServlet{
 			// 전체 할 일 목록 + 완료된 Todo 개수 얻어오기
 			Map<String, Object> map = service.todoListFullView();
 			
+			// Map에 저장된 값 풀어내기
+			List<Todo> todoList = (List<Todo>)map.get("todoList");
+			int completeCount = (int)map.get("completeCount");
+			
+			// request scope에 객체 값 추가하기
+			req.setAttribute("todoList", todoList);
+			req.setAttribute("completeCount", completeCount);
+			
+			// 메인페이지 응답을 담당하는 JSP에 요청 위임
+			req.getRequestDispatcher("/WEB-INF/views/main.jsp").forward(req, resp);
 			
 		} catch (Exception e) {
 			
