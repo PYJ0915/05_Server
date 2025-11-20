@@ -28,7 +28,7 @@ public class RedirectServlet extends HttpServlet{
 		// resp.sendRedirect("다시 요청할 Servlet 주소")
 		// => Servlet 주소는 파일 경로가 아님!!
 		// => 다시 요청할 Servlet의 @WebServlet에 작성된 주소를 작성!
-		// *** 재요청(redirect)는 무조건 GET 요청 ***
+		// *** 재요청(redirect)는 무조건 GET 방식 ***
 		resp.sendRedirect("/fr/result");
 		
 	}
