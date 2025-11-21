@@ -143,4 +143,132 @@ public class TodoListDAOImpl implements TodoListDAO{
 		return result;
 	}
 
+
+	@Override
+	public Todo todoDetail(Connection conn, int todoNo) throws Exception {
+		
+		Todo todo = null;
+		
+		try {
+			
+			String sql = prop.getProperty("todoDetail");
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, todoNo);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				
+			// 결과 todo 만들기
+				
+				// 방법 1.
+				boolean complete = rs.getInt("TODO_COMPLETE") == 1;
+				
+				int No = rs.getInt("TODO_NO");
+				String title = rs.getString("TODO_TITLE");
+				String detail = rs.getString("TODO_DETAIL");
+				String date = rs.getString("REG_DATE");
+				
+				todo = new Todo(No, title, detail, complete, date);
+				
+				/* 방법 2.
+				todo = todo.builder()
+						.todoNo(todoNo)
+						.todoTitle(rs.getString("TODO_TITLE"))
+						.todoDetail(rs.getString("TODO_DETAIL"))
+						.todoComplete(complete)
+						.regDate(rs.getString("REG_DATE"))
+						.build();
+				*/
+			}
+			
+		} finally {
+			
+			close(rs);
+			close(pstmt);
+			
+		}
+		
+		return todo;
+	}
+
+
+	@Override
+	public int todoComplete(Connection conn, int todoNo) throws Exception {
+		
+		int result = 0;
+		
+		try {
+			
+			String sql = prop.getProperty("todoComplete");
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, todoNo);
+			
+			result = pstmt.executeUpdate();
+			
+		} finally {
+			
+			close(pstmt);
+			
+		}
+		
+		return result;
+	}
+
+
+	@Override
+	public int todoDelete(Connection conn, int todoNo) throws Exception {
+		
+		int result = 0;
+		
+		try {
+			
+			String sql = prop.getProperty("todoDelete");
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, todoNo);
+			
+			result = pstmt.executeUpdate();
+			
+		} finally {
+			
+			close(pstmt);
+			
+		}
+		
+		return result;
+	}
+
+
+	@Override
+	public int todoUpdate(Connection conn, String title, String detail, int todoNo) throws Exception {
+		
+		int result = 0;
+		
+		try {
+			
+			String sql = prop.getProperty("todoUpdate");
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, title);
+			pstmt.setString(2, detail);
+			pstmt.setInt(3, todoNo);
+			
+			result = pstmt.executeUpdate();
+			
+		} finally {
+			
+			close(pstmt);
+			
+		}
+		
+		return result;
+	}
+
 }

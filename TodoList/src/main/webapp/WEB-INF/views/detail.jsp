@@ -7,24 +7,28 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title> 상세 조회</title>
+	<title>${todo.todoTitle} 상세 조회</title>
+	<link rel="stylesheet" href="/resources/css/detail.css">
 </head>
 <body>
 
-	<h1></h1>
-
-	<h1></h1>
+	<h1>${todo.todoTitle}</h1>
 
 	<div class="complete">
 		완료 여부 :
-		
+			<c:if test="${todo.todoComplete}">
+				<span class="green">O</span>
+			</c:if>
+			<c:if test="${not todo.todoComplete}">
+				<span class="red">X</span>
+			</c:if>
 	</div>
 
 	<div>
-		작성일 : 
+		작성일 : ${todo.regDate}
 	</div>
 
-	<div class="content"></div>
+	<div class="content">${todo.todoDetail}</div>
 	
 	<div class="btn-container">
 		<div>
@@ -38,7 +42,22 @@
 		</div>
 	</div>
 	
+		<%-- session 범위에 message가 있는 경우 --%>
+	<c:if test="${not empty sessionScope.message}">
+		<script>
+			// JS 영역
+			alert("${message}");
+			// JSP 해석순위
+			// 1. Java (EL/JSTL)
+			// 2. Front (HTML/CSS/JS)
+		</script>
+		
+		
+		<%-- message를 한 번만 사용하고 제거 --%>
+		<c:remove var="message" scope="session"/>
+	</c:if>
 	
+	<script src="/resources/js/detail.js"></script>
 	
 </body>
 </html>

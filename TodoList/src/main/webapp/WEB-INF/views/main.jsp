@@ -55,7 +55,11 @@
 					<th>${vs.count}</th>
 					<th>${todo.todoNo}</th>
 					<td>
-						<a href="#">${todo.todoTitle}</a>
+						<%-- 제목 클릭 시
+							todoNo(고유 todo번호)를 데이터로 전송(제출)하여
+							서버에서 상세 내용 조회 시 todoNo를 이용하게끔 함
+						 --%>
+						<a href="/todo/detail?todoNo=${todo.todoNo}">${todo.todoTitle}</a>
 					</td>
 					<th>
 						<c:if test="${todo.todoComplete}">O</c:if>
@@ -84,5 +88,6 @@
 		<c:remove var="message" scope="session"/>
 	</c:if>
 	
+	<script src="/resources/js/main.js"></script>
 </body>
 </html>
